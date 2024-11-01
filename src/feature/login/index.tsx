@@ -1,14 +1,17 @@
 import { Button, Flex, Input } from '@/shared'
 import { useState } from 'react'
+import { useAppDispatch } from '@/app/store'
+import { signIn } from '@/entity/user/api/signIn.ts'
 
 export const Login = () => {
+  const dispatch = useAppDispatch()
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(false)
 
   const onClick = () => {
     if (login && password) {
-      console.log(login, password)
+      dispatch(signIn({ password, username: login }))
     } else {
       setError(true)
     }
