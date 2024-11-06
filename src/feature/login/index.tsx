@@ -1,6 +1,6 @@
 import { Button, Flex, Input } from '@/shared'
 import { useState } from 'react'
-import { useAppDispatch } from '@/app/store'
+import { useAppDispatch, useAppSelector } from '@/app/store'
 import { signIn } from '@/entity/user/api/signIn.ts'
 
 export const Login = () => {
@@ -8,7 +8,8 @@ export const Login = () => {
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(false)
-
+  const { isLoading } = useAppSelector((state) => state.userReducer)
+  console.log(isLoading)
   const onClick = () => {
     if (login && password) {
       dispatch(signIn({ password, username: login }))
@@ -46,7 +47,7 @@ export const Login = () => {
           }}
           status={error && !password ? 'error' : ''}
         />
-        <Button type={'primary'} onClick={onClick}>
+        <Button type={'primary'} onClick={onClick} loading={isLoading}>
           Вход
         </Button>
       </Flex>
