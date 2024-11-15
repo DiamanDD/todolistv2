@@ -1,15 +1,27 @@
 import { Button, Flex, Input } from '@/shared'
-import { useState } from 'react'
-import { useAppDispatch, useAppSelector } from '@/app/store'
-import { signIn } from '@/entity/user/api/signIn.ts'
+import { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '@/app'
+import { signIn, authMe } from '@/entity'
+import { Navigate } from 'react-router-dom'
 
 export const Login = () => {
   const dispatch = useAppDispatch()
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(false)
-  const { isLoading } = useAppSelector((state) => state.userReducer)
-  console.log(isLoading)
+  const { isLoading, isAuthorize, isInitialized } = useAppSelector((state) => state.userReducer)
+
+  useEffect(() => {
+    if (!isAuthorize) {
+      dispatch(authMe())
+    }
+  }, [])
+  if (!isInitialized) {
+    return <>...Loading</>
+  }
+  if (isAuthorize) {
+    return <Navigate to={'/todolist'} />
+  }
   const onClick = () => {
     if (login && password) {
       dispatch(signIn({ password, username: login }))
