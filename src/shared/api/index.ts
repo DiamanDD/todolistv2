@@ -12,6 +12,10 @@ export const setAuthTokenInLocalStorage = (token: string) => {
   }
 }
 
+export const removeAuthTokenInLocalStorage = () => {
+  localStorage.removeItem(ACCESS_TOKEN)
+}
+
 export const getAuthToken = () => {
   const token = localStorage.getItem(ACCESS_TOKEN)
   if (token) {

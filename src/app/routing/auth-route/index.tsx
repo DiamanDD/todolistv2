@@ -2,7 +2,8 @@ import { useAppDispatch, useAppSelector } from '@/app'
 import { useEffect } from 'react'
 import { authMe } from '@/entity'
 import { Navigate, Outlet } from 'react-router-dom'
-import { paths } from '@/shared'
+import { BaseLayout, paths } from '@/shared'
+import { Header } from '@/feature'
 
 export const AuthRoute = () => {
   const { isAuthorize, isInitialized } = useAppSelector((state) => state.userReducer)
@@ -21,16 +22,5 @@ export const AuthRoute = () => {
   if (!isAuthorize) {
     return <Navigate to={paths.login.route()} />
   }
-  return (
-    <div>
-      <div>Header</div>
-      <div style={{ display: 'flex' }}>
-        <div>sidebar</div>
-        <div>
-          <Outlet />
-        </div>
-      </div>
-      <div>footer</div>
-    </div>
-  )
+  return <BaseLayout outlet={<Outlet />} header={<Header />} />
 }

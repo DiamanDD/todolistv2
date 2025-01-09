@@ -1,16 +1,26 @@
 import { createSlice, isPending, isRejected } from '@reduxjs/toolkit'
-import { signIn, authMe } from '../api'
+import { authMe, signIn } from '../api'
+import { removeAuthTokenInLocalStorage } from '@/shared'
 
+const initialState = {
+  isAuthorize: false,
+  isInitialized: false,
+  isLoading: false,
+  firstName: '',
+  lastName: '',
+}
 export const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    isAuthorize: false,
-    isInitialized: false,
-    isLoading: false,
-    firstName: '',
-    lastName: '',
+  initialState,
+  reducers: {
+    logOut: (state) => {
+      removeAuthTokenInLocalStorage()
+      //Todo правильно зачищать стейт
+      state.isAuthorize = false
+      state.lastName = ''
+      state.firstName = ''
+    },
   },
-  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(signIn.fulfilled, (state) => {
@@ -34,3 +44,5 @@ export const userSlice = createSlice({
       })
   },
 })
+
+export const { logOut } = userSlice.actions

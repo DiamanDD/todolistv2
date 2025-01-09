@@ -8,6 +8,7 @@ export const Routing = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<AuthRoute />}>
+          <Route path={paths.main.route()} element={<>Главная страница</>} />
           <Route path={paths.todolist.route()} element={<TodolistPage />} />
         </Route>
         <Route path={paths.login.route()} element={<LoginPage />} />
